@@ -5,11 +5,11 @@ body {
 h1 {
     color:blueviolet;
 }
-
-.☆ {
- color:pink;
+.☆ { 
+    color: pink;
+  
 }
 P {
-    font-size: 30 px;
+    font-size: 30px;
     
 }
