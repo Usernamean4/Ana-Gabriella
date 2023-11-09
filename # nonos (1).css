@@ -1,7 +1,6 @@
 body {
     background-color:blue;
-    text-align:center;
-    
+    text-align: center;  
 }
 h1 {
     color:blueviolet;
@@ -11,6 +10,6 @@ h1 {
  color:pink;
 }
 P {
-    font-size: 30px;
+    font-size: 30 px;
     
 }
