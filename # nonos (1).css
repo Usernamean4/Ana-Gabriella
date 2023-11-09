@@ -1,9 +1,16 @@
-body{
+body {
     background-color:blue;
     text-align:center;
+    
 }
-h1{
+h1 {
     color:blueviolet;
 }
-. ☆ {
+
+."☆" {
  color:pink;
+}
+P {
+    font-size: 30px;
+    
+}
