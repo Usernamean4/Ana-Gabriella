@@ -1,56 +1,79 @@
-let colors = ["#FF6347", "#FFD700", "#32CD32", "#1E90FF", "#FF69B4"];
-let flagPositions = [];
-let windOffset = 0;
+let balloons = [];
+let stars = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  // Inicializar posições das bandeirinhas
-  for (let i = 0; i < 50; i++) {
-    flagPositions.push({
-      x: i * 40 + 10,
-      y: 100 + random(-10, 10)
-    });
+  // Inicializar balões
+  for (let i = 0; i < 10; i++) {
+    balloons.push(new Balloon(random(width), height + random(100, 300)));
+  }
+  // Inicializar estrelas
+  for (let i = 0; i < 100; i++) {
+    stars.push(new Star(random(width), random(height)));
   }
 }
 
 function draw() {
-  background('#87CEEB');
-  drawBanners();
-  drawFire();
+  background(0);
+  drawStars();
+  drawBalloons();
 }
 
-function drawBanners() {
-  let bannerHeight = 40;
-  windOffset += 0.05;
-  for (let i = 0; i < flagPositions.length; i++) {
-    let pos = flagPositions[i];
-    let wave = sin((i * 0.5) + windOffset) * 10;
-    fill(colors[i % colors.length]);
-    noStroke();
-    triangle(pos.x, pos.y + wave, pos.x + 20, pos.y + bannerHeight + wave, pos.x + 40, pos.y + wave);
+function drawStars() {
+  for (let star of stars) {
+    star.show();
+    star.twinkle();
   }
 }
 
-function drawFire() {
-  let fireBaseWidth = 60;
-  let fireHeight = 100;
-  let fireBaseX = width / 2;
-  let fireBaseY = height - 50;
-  
-  // Desenhar lenha
-  fill(139, 69, 19);
-  rect(fireBaseX - 20, fireBaseY, 40, 100);
-  rect(fireBaseX - 50, fireBaseY, 40, 100);
-  rect(fireBaseX + 10, fireBaseY, 40, 100);
-  
-  // Desenhar fogo
-  for (let i = 0; i < 10; i++) {
-    let fireX = fireBaseX + random(-fireBaseWidth, fireBaseWidth);
-    let fireY = fireBaseY + random(-fireHeight, 0);
-    let fireColor = color(255, random(150, 200), 0, 150);
-    fill(fireColor);
+function drawBalloons() {
+  for (let balloon of balloons) {
+    balloon.move();
+    balloon.show();
+    // Reinicializa o balão quando ele sai da tela
+    if (balloon.y < -100) {
+      balloon.y = height + random(100, 300);
+      balloon.x = random(width);
+    }
+  }
+}
+
+class Balloon {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.size = random(40, 60);
+    this.color = color(random(255), random(255), random(255));
+  }
+
+  move() {
+    this.y -= 2;
+    this.x += sin(this.y * 0.05) * 2;
+  }
+
+  show() {
+    fill(this.color);
     noStroke();
-    ellipse(fireX, fireY, random(20, 40), random(40, 80));
+    ellipse(this.x, this.y, this.size, this.size * 1.2);
+    line(this.x, this.y + this.size * 0.6, this.x, this.y + this.size * 2);
+  }
+}
+
+class Star {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.brightness = random(100, 255);
+  }
+
+  twinkle() {
+    this.brightness = random(100, 255);
+  }
+
+  show() {
+    fill(this.brightness);
+    noStroke();
+    ellipse(this.x, this.y, 3, 3);
   }
 }
 
