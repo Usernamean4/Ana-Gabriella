@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Jogo Contra o Machismo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+        }
+        .pergunta {
+            margin-bottom: 20px;
+        }
+        .opcoes button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        #resultado {
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Jogo: Combate ao Machismo</h1>
+    <div class="pergunta" id="pergunta"></div>
+    <div class="opcoes" id="opcoes"></div>
+    <div id="resultado"></div>
+
+    <script>
+        const perguntas = [
+            {
+                pergunta: "O que é machismo?",
+                opcoes: [
+                    "Uma forma de igualdade entre os sexos",
+                    "A ideia de que mulheres são inferiores aos homens",
+                    "Uma forma de gentileza com as mulheres",
+                    "Um movimento feminista"
+                ],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "Qual atitude ajuda a combater o machismo?",
+                opcoes: [
+                    "Ignorar piadas machistas",
+                    "Interromper mulheres enquanto falam",
+                    "Valorizar a opinião das mulheres",
+                    "Reforçar estereótipos de gênero"
+                ],
+                respostaCorreta: 2
+            },
+            {
+                pergunta: "O que é o feminismo?",
+                opcoes: [
+                    "Ódio aos homens",
+                    "Luta por igualdade de direitos entre gêneros",
+                    "Superioridade feminina",
+                    "Movimento contra a masculinidade"
+                ],
+                respostaCorreta: 1
+            }
+        ];
+
+        let perguntaAtual = 0;
+        let acertos = 0;
+
+        function mostrarPergunta() {
+            if (perguntaAtual < perguntas.length) {
+                const p = perguntas[perguntaAtual];
+                document.getElementById("pergunta").innerText = p.pergunta;
+                const opcoesDiv = document.getElementById("opcoes");
+                opcoesDiv.innerHTML = "";
+
+                p.opcoes.forEach((opcao, index) => {
+                    const btn = document.createElement("button");
+                    btn.innerText = opcao;
+                    btn.onclick = () => verificarResposta(index);
+                    opcoesDiv.appendChild(btn);
+                });
+            } else {
+                document.getElementById("pergunta").style.display = "none";
+                document.getElementById("opcoes").style.display = "none";
+                document.getElementById("resultado").innerText = `Você acertou ${acertos} de ${perguntas.length} perguntas!`;
+            }
+        }
+
+        function verificarResposta(respostaSelecionada) {
+            if (respostaSelecionada === perguntas[perguntaAtual].respostaCorreta) {
+                acertos++;
+            }
+            perguntaAtual++;
+            mostrarPergunta();
+        }
+
+        mostrarPergunta();
+    </script>
+</body>
+</html>
