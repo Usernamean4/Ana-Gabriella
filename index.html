@@ -68,6 +68,76 @@
                     "Movimento contra a masculinidade"
                 ],
                 respostaCorreta: 1
+            },
+            {
+                pergunta: "Como você pode apoiar uma colega que sofreu machismo?",
+                opcoes: [
+                    "Fingir que nada aconteceu",
+                    "Culpar a vítima",
+                    "Ouvir e apoiar sua fala",
+                    "Disfarçar a situação com piadas"
+                ],
+                respostaCorreta: 2
+            },
+            {
+                pergunta: "O que é mansplaining?",
+                opcoes: [
+                    "Homens explicando algo de forma respeitosa",
+                    "Homens explicando algo sem necessidade, subestimando a mulher",
+                    "Uma forma de elogio",
+                    "Um tipo de brincadeira entre amigos"
+                ],
+                respostaCorreta: 1
+            },
+            {
+                pergunta: "Qual frase é um exemplo de machismo?",
+                opcoes: [
+                    "Mulheres devem ganhar o mesmo que homens",
+                    "Lugar de mulher é onde ela quiser",
+                    "Mulher não entende de política",
+                    "Devemos ouvir todas as vozes"
+                ],
+                respostaCorreta: 2
+            },
+            {
+                pergunta: "O que é um estereótipo de gênero?",
+                opcoes: [
+                    "Uma característica individual",
+                    "Uma habilidade natural",
+                    "Uma ideia preconcebida sobre o papel de homens e mulheres",
+                    "Um elogio"
+                ],
+                respostaCorreta: 2
+            },
+            {
+                pergunta: "Qual atitude é respeitosa em um debate?",
+                opcoes: [
+                    "Deixar a mulher terminar sua fala",
+                    "Interromper para corrigir",
+                    "Falar mais alto para impor opinião",
+                    "Desacreditar o que ela diz"
+                ],
+                respostaCorreta: 0
+            },
+            {
+                pergunta: "Por que é importante discutir o machismo?",
+                opcoes: [
+                    "Para perpetuar o sistema atual",
+                    "Para proteger privilégios masculinos",
+                    "Para promover a desigualdade",
+                    "Para construir uma sociedade mais justa"
+                ],
+                respostaCorreta: 3
+            },
+            {
+                pergunta: "Qual dessas ações ajuda a promover a igualdade de gênero?",
+                opcoes: [
+                    "Tratar mulheres como inferiores",
+                    "Encorajar a participação feminina em todos os espaços",
+                    "Fazer piadas sexistas",
+                    "Ignorar comportamentos machistas"
+                ],
+                respostaCorreta: 1
             }
         ];
 
@@ -90,7 +160,10 @@
             } else {
                 document.getElementById("pergunta").style.display = "none";
                 document.getElementById("opcoes").style.display = "none";
-                document.getElementById("resultado").innerText = `Você acertou ${acertos} de ${perguntas.length} perguntas!`;
+                const resultadoDiv = document.getElementById("resultado");
+                let mensagemFinal = `Você acertou ${acertos} de ${perguntas.length} perguntas! `;
+                mensagemFinal += acertos > 6 ? "Parabéns! Você está no caminho para combater o machismo!" : "Quem sabe na próxima! Continue aprendendo.";
+                resultadoDiv.innerText = mensagemFinal;
             }
         }
 
