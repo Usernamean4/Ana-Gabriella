@@ -225,8 +225,9 @@
             opcoesDiv.innerHTML = "";
 
             p.opcoes.forEach((opcao, index) => {
+                const letra = String.fromCharCode(65 + index); // A, B, C, D...
                 const btn = document.createElement("button");
-                btn.innerText = opcao;
+                btn.innerText = `${letra}) ${opcao}`;
                 btn.onclick = () => verificar(index);
                 opcoesDiv.appendChild(btn);
             });
@@ -291,6 +292,3 @@
     </script>
 </body>
 </html>
-
-
-
