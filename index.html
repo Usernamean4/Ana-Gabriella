@@ -61,6 +61,12 @@
             color: #333;
             font-size: 16px;
         }
+        .errada {
+            background-color: #ffe0e0;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 6px;
+        }
     </style>
 </head>
 <body>
@@ -177,6 +183,7 @@
 
         let atual = 0;
         let acertos = 0;
+        let respostasUsuario = [];
 
         function mostrarPergunta() {
             const p = perguntas[atual];
@@ -193,6 +200,7 @@
         }
 
         function verificar(resposta) {
+            respostasUsuario.push(resposta);
             if (resposta === perguntas[atual].correta) {
                 acertos++;
             }
@@ -234,8 +242,13 @@
 
             let respostas = "<h3>Respostas corretas:</h3><ul>";
             perguntas.forEach((p, i) => {
-                const letra = String.fromCharCode(65 + p.correta); // 65 = 'A'
-                respostas += `<li>Pergunta ${i + 1}: ${letra}</li>`;
+                const letraCorreta = String.fromCharCode(65 + p.correta);
+                respostas += `<li><strong>P${i + 1}</strong>: correta = ${letraCorreta}`;
+                if (respostasUsuario[i] !== p.correta) {
+                    const letraErrada = String.fromCharCode(65 + respostasUsuario[i]);
+                    respostas += ` <div class="errada">Você respondeu: ${letraErrada}</div>`;
+                }
+                respostas += "</li>";
             });
             respostas += "</ul>";
             document.getElementById("respostas-cert").innerHTML = respostas;
