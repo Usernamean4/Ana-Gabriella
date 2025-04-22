@@ -6,26 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ffd6e0, #f6f6f6);
             padding: 20px;
             max-width: 700px;
             margin: auto;
             border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
         }
-        h1 {
+        h1, h2 {
             text-align: center;
             color: #6a0572;
-            font-size: 32px;
         }
         .pergunta {
             font-size: 20px;
             margin: 20px 0 10px;
-            color: #333;
             font-weight: bold;
         }
-        .opcoes button {
+        .opcoes button, .nivel button {
             display: block;
             width: 100%;
             padding: 12px;
@@ -37,224 +35,188 @@
             background-color: #fff;
             transition: background 0.3s;
         }
-        .opcoes button:hover {
+        .opcoes button:hover, .nivel button:hover {
             background-color: #ffe0e9;
         }
-        #resultado {
+        #resultado, .estrelas {
             text-align: center;
-            font-size: 20px;
-            margin-top: 30px;
-            font-weight: bold;
-            color: #6a0572;
+            margin-top: 20px;
         }
         .estrelas {
-            text-align: center;
-            font-size: 28px;
+            font-size: 24px;
             color: gold;
-            margin-top: 10px;
         }
-        #respostas-cert {
-            margin-top: 20px;
-            background-color: #fff8f8;
-            padding: 15px;
-            border-radius: 8px;
-            color: #333;
-            font-size: 16px;
+        #timer {
+            text-align: center;
+            font-size: 18px;
+            margin: 10px;
+            color: #ff4c4c;
+        }
+        .correta, .errada {
+            margin-top: 5px;
+            padding: 8px;
+            border-radius: 6px;
+        }
+        .correta {
+            background-color: #e0ffe0;
         }
         .errada {
             background-color: #ffe0e0;
-            padding: 8px;
-            margin-top: 5px;
-            border-radius: 6px;
         }
     </style>
 </head>
 <body>
     <h1>Quiz: Combate ao Machismo</h1>
-    <div class="pergunta" id="pergunta"></div>
-    <div class="opcoes" id="opcoes"></div>
+    <div id="nivelEscolha" class="nivel">
+        <h2>Escolha a dificuldade</h2>
+        <button onclick="iniciarQuiz('medio')">Médio</button>
+        <button onclick="iniciarQuiz('dificil')">Difícil</button>
+    </div>
+
+    <div id="quiz" style="display:none;">
+        <div class="pergunta" id="pergunta"></div>
+        <div id="timer">Tempo: 5</div>
+        <div class="opcoes" id="opcoes"></div>
+    </div>
+
     <div id="resultado"></div>
     <div class="estrelas" id="estrelas"></div>
     <div id="respostas-cert"></div>
 
     <script>
-        const perguntas = [
-            {
-                pergunta: "O que é machismo?",
-                opcoes: [
-                    "A) Respeito às mulheres",
-                    "B) Preconceito e discriminação contra mulheres",
-                    "C) Preferência por mulheres",
-                    "D) Defesa de valores tradicionais"
-                ],
-                correta: 1
-            },
-            {
-                pergunta: "O que significa feminismo?",
-                opcoes: [
-                    "A) Ódio aos homens",
-                    "B) Busca por privilégios femininos",
-                    "C) Igualdade entre os gêneros",
-                    "D) Dominação feminina"
-                ],
-                correta: 2
-            },
-            {
-                pergunta: "Quem pode combater o machismo?",
-                opcoes: [
-                    "A) Só mulheres",
-                    "B) Só quem estuda sobre o tema",
-                    "C) Todos nós",
-                    "D) Pessoas mais velhas"
-                ],
-                correta: 2
-            },
-            {
-                pergunta: "O que é “mansplaining”?",
-                opcoes: [
-                    "A) Homem explicando algo com carinho",
-                    "B) Homem explicando algo óbvio de forma condescendente",
-                    "C) Conversa entre homens",
-                    "D) Homem ensinando algo complexo"
-                ],
-                correta: 1
-            },
-            {
-                pergunta: "Qual dessas frases é machista?",
-                opcoes: [
-                    "A) Mulher no volante, perigo constante",
-                    "B) Lugar de mulher é onde ela quiser",
-                    "C) Homens e mulheres são iguais",
-                    "D) Todos devem ser respeitados"
-                ],
-                correta: 0
-            },
-            {
-                pergunta: "Como podemos combater o machismo no dia a dia?",
-                opcoes: [
-                    "A) Rindo de piadas machistas",
-                    "B) Ignorando comentários ofensivos",
-                    "C) Denunciando abusos e apoiando vítimas",
-                    "D) Deixando pra lá, não é nossa responsabilidade"
-                ],
-                correta: 2
-            },
-            {
-                pergunta: "O machismo prejudica:",
-                opcoes: [
-                    "A) Somente as mulheres",
-                    "B) Apenas casais heterossexuais",
-                    "C) Toda a sociedade",
-                    "D) Só pessoas sensíveis"
-                ],
-                correta: 2
-            },
-            {
-                pergunta: "Qual dessas atitudes contribui para a igualdade de gênero?",
-                opcoes: [
-                    "A) Dar flores às mulheres no Dia da Mulher",
-                    "B) Tratar mulheres como frágeis",
-                    "C) Dividir tarefas e respeitar opiniões",
-                    "D) Proteger mulheres de tudo"
-                ],
-                correta: 2
-            },
-            {
-                pergunta: "Qual dessas atitudes é desrespeitosa?",
-                opcoes: [
-                    "A) Ouvir atentamente as mulheres",
-                    "B) Interromper mulheres durante a fala",
-                    "C) Valorizar conquistas femininas",
-                    "D) Incentivar a igualdade"
-                ],
-                correta: 1
-            },
-            {
-                pergunta: "Por que é importante falar sobre machismo?",
-                opcoes: [
-                    "A) Para manter a tradição",
-                    "B) Para reforçar os papéis sociais",
-                    "C) Para construir uma sociedade mais justa",
-                    "D) Porque é moda"
-                ],
-                correta: 2
-            }
-        ];
+        const perguntasPorNivel = {
+            medio: [
+                {
+                    pergunta: "Quem pode combater o machismo?",
+                    opcoes: ["A) Só mulheres", "B) Só quem estuda sobre o tema", "C) Todos nós", "D) Pessoas mais velhas"],
+                    correta: 2
+                },
+                {
+                    pergunta: "Qual dessas frases é machista?",
+                    opcoes: ["A) Mulher no volante, perigo constante", "B) Lugar de mulher é onde ela quiser", "C) Homens e mulheres são iguais", "D) Todos devem ser respeitados"],
+                    correta: 0
+                },
+                {
+                    pergunta: "Como podemos combater o machismo no dia a dia?",
+                    opcoes: ["A) Rindo de piadas machistas", "B) Ignorando comentários ofensivos", "C) Denunciando abusos e apoiando vítimas", "D) Não fazer nada"],
+                    correta: 2
+                },
+                {
+                    pergunta: "O que é “mansplaining”?",
+                    opcoes: ["A) Explicar gentilmente", "B) Homem explicando algo óbvio com arrogância", "C) Falar bem de mulheres", "D) Interromper para ensinar"],
+                    correta: 1
+                },
+                {
+                    pergunta: "O machismo prejudica:",
+                    opcoes: ["A) Só mulheres", "B) Só homens", "C) Toda a sociedade", "D) Só crianças"],
+                    correta: 2
+                }
+            ],
+            dificil: [
+                {
+                    pergunta: "O que é o patriarcado?",
+                    opcoes: ["A) Governo só de mulheres", "B) Sistema de dominação masculina", "C) Igualdade entre todos", "D) Religião antiga"],
+                    correta: 1
+                },
+                {
+                    pergunta: "Qual dessas atitudes ajuda a combater o machismo?",
+                    opcoes: ["A) Proteger mulheres como frágeis", "B) Interromper quando discordar", "C) Ouvir e valorizar mulheres", "D) Fazer piadas para aliviar"],
+                    correta: 2
+                },
+                {
+                    pergunta: "A frase 'mulher tem que se dar ao respeito' é:",
+                    opcoes: ["A) Motivadora", "B) Neutra", "C) Machista", "D) Verdadeira"],
+                    correta: 2
+                },
+                {
+                    pergunta: "Por que devemos falar sobre machismo?",
+                    opcoes: ["A) Para incomodar", "B) Para entender e mudar comportamentos", "C) Para testar os outros", "D) Porque está na moda"],
+                    correta: 1
+                },
+                {
+                    pergunta: "Qual dessas situações representa machismo?",
+                    opcoes: ["A) Dividir tarefas de casa", "B) Dizer que mulher não entende de política", "C) Apoiar mulheres líderes", "D) Valorizar as opiniões femininas"],
+                    correta: 1
+                }
+            ]
+        };
 
-        let atual = 0;
-        let acertos = 0;
-        let respostasUsuario = [];
+        let perguntas = [], atual = 0, acertos = 0, respostasUsuario = [], nivelAtual = "", timer, tempo;
+
+        function iniciarQuiz(nivel) {
+            nivelAtual = nivel;
+            perguntas = [...perguntasPorNivel[nivel]];
+            atual = 0;
+            acertos = 0;
+            respostasUsuario = [];
+            document.getElementById("nivelEscolha").style.display = "none";
+            document.getElementById("quiz").style.display = "block";
+            mostrarPergunta();
+        }
 
         function mostrarPergunta() {
             const p = perguntas[atual];
             document.getElementById("pergunta").innerText = `Pergunta ${atual + 1}: ${p.pergunta}`;
             const opcoesDiv = document.getElementById("opcoes");
             opcoesDiv.innerHTML = "";
-
-            p.opcoes.forEach((opcao, index) => {
+            p.opcoes.forEach((opcao, i) => {
                 const btn = document.createElement("button");
                 btn.innerText = opcao;
-                btn.onclick = () => verificar(index);
+                btn.onclick = () => responder(i);
                 opcoesDiv.appendChild(btn);
             });
+            iniciarTimer();
         }
 
-        function verificar(resposta) {
+        function iniciarTimer() {
+            tempo = 5;
+            document.getElementById("timer").innerText = `Tempo: ${tempo}`;
+            clearInterval(timer);
+            timer = setInterval(() => {
+                tempo--;
+                document.getElementById("timer").innerText = `Tempo: ${tempo}`;
+                if (tempo <= 0) {
+                    clearInterval(timer);
+                    responder(null); // tempo esgotado
+                }
+            }, 1000);
+        }
+
+        function responder(resposta) {
+            clearInterval(timer);
             respostasUsuario.push(resposta);
-            if (resposta === perguntas[atual].correta) {
+            if (resposta !== null && resposta === perguntas[atual].correta) {
                 acertos++;
             }
             atual++;
             if (atual < perguntas.length) {
                 mostrarPergunta();
             } else {
-                exibirResultado();
+                mostrarResultado();
             }
         }
 
-        function exibirResultado() {
-            document.getElementById("pergunta").style.display = "none";
-            document.getElementById("opcoes").style.display = "none";
+        function mostrarResultado() {
+            document.getElementById("quiz").style.display = "none";
+            let msg = `Você acertou ${acertos} de ${perguntas.length} perguntas.\n`;
+            msg += acertos >= 4 ? "Ótimo trabalho!" : "Continue aprendendo!";
+            document.getElementById("resultado").innerText = msg;
+            document.getElementById("estrelas").innerText = acertos >= 4 ? "★★★" : acertos >= 2 ? "★★" : "★";
 
-            let mensagem = `Você acertou ${acertos} de ${perguntas.length} perguntas.\n`;
-
-            if (acertos >= 9) {
-                mensagem += "Parabéns! Você demonstra grande consciência sobre o tema.";
-            } else if (acertos >= 6) {
-                mensagem += "Muito bom! Mas ainda dá para aprender mais.";
-            } else {
-                mensagem += "Continue estudando, o conhecimento transforma!";
-            }
-
-            document.getElementById("resultado").innerText = mensagem;
-
-            let estrelas = "";
-            if (acertos >= 9) {
-                estrelas = "★★★";
-            } else if (acertos >= 6) {
-                estrelas = "★★";
-            } else if (acertos >= 3) {
-                estrelas = "★";
-            } else {
-                estrelas = "Sem estrelas desta vez";
-            }
-            document.getElementById("estrelas").innerText = estrelas;
-
-            let respostas = "<h3>Respostas corretas:</h3><ul>";
+            let respostas = "<h3>Respostas:</h3><ul>";
             perguntas.forEach((p, i) => {
-                const letraCorreta = String.fromCharCode(65 + p.correta);
-                respostas += `<li><strong>P${i + 1}</strong>: correta = ${letraCorreta}`;
+                const letraCerta = String.fromCharCode(65 + p.correta);
+                respostas += `<li><strong>${p.pergunta}</strong>`;
+                respostas += `<div class="correta">Correta: ${p.opcoes[p.correta]}</div>`;
                 if (respostasUsuario[i] !== p.correta) {
-                    const letraErrada = String.fromCharCode(65 + respostasUsuario[i]);
-                    respostas += ` <div class="errada">Você respondeu: ${letraErrada}</div>`;
+                    let r = respostasUsuario[i];
+                    respostas += `<div class="errada">Você respondeu: ${r !== null ? p.opcoes[r] : "Não respondeu (tempo esgotado)"}</div>`;
                 }
-                respostas += "</li>";
+                respostas += "</li><br>";
             });
             respostas += "</ul>";
             document.getElementById("respostas-cert").innerHTML = respostas;
         }
-
-        mostrarPergunta();
     </script>
 </body>
 </html>
