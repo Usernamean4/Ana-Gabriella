@@ -5,39 +5,98 @@
     <title>Quiz Contra o Machismo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            max-width: 600px;
-            margin: auto;
-            background-color: #f7f7f7;
+        * {
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            max-width: 700px;
+            margin: auto;
+            background: linear-gradient(to right, #ffdde1, #ee9ca7);
+            color: #333;
+        }
+
         h1 {
             text-align: center;
+            color: #880e4f;
+            text-shadow: 1px 1px 2px #fff;
+            font-size: 2em;
+            margin-bottom: 30px;
         }
+
         .pergunta {
-            font-size: 18px;
+            font-size: 20px;
+            font-weight: bold;
+            background-color: #ffeef2;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             margin-bottom: 15px;
         }
+
         .opcoes button {
             display: block;
             width: 100%;
-            padding: 10px;
-            margin: 5px 0;
+            padding: 12px;
+            margin: 8px 0;
             font-size: 16px;
             cursor: pointer;
+            background: #f06292;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            transition: transform 0.2s ease, background 0.3s ease;
         }
+
+        .opcoes button:hover {
+            background: #ec407a;
+            transform: scale(1.02);
+        }
+
         #resultado {
             text-align: center;
-            font-size: 20px;
+            font-size: 22px;
             margin-top: 30px;
             font-weight: bold;
+            color: #4a148c;
+            background-color: #f3e5f5;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
+
         .estrelas {
             text-align: center;
-            font-size: 24px;
+            font-size: 28px;
             color: gold;
             margin-top: 10px;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        .gabarito {
+            margin-top: 30px;
+            background: #fff3e0;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .gabarito h2 {
+            color: #e65100;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .pergunta {
+                font-size: 18px;
+            }
+
+            .opcoes button {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -47,6 +106,7 @@
     <div class="opcoes" id="opcoes"></div>
     <div id="resultado"></div>
     <div class="estrelas" id="estrelas"></div>
+    <div class="gabarito" id="gabarito"></div>
 
     <script>
         const niveis = {
@@ -56,92 +116,72 @@
                     opcoes: [
                         "Respeito às mulheres",
                         "Preconceito e discriminação contra mulheres",
-                        "Forma de amor",
-                        "Luta pelos direitos das mulheres"
+                        "Preferência por mulheres",
+                        "Defesa de valores tradicionais"
                     ],
                     correta: 1
                 },
                 {
-                    pergunta: "O que é feminismo?",
+                    pergunta: "Quem pode combater o machismo?",
                     opcoes: [
-                        "Ódio aos homens",
-                        "Busca por privilégios femininos",
-                        "Igualdade entre gêneros",
-                        "Revolta das mulheres"
+                        "Apenas mulheres feministas",
+                        "Apenas homens conscientes",
+                        "Todos nós",
+                        "Somente educadores"
                     ],
                     correta: 2
                 },
                 {
-                    pergunta: "Quem pode combater o machismo?",
+                    pergunta: "Feminismo significa:",
                     opcoes: [
-                        "Somente mulheres",
-                        "Somente homens",
-                        "Todos nós",
-                        "Ninguém"
+                        "Igualdade entre gêneros",
+                        "Superioridade feminina",
+                        "Revolta contra homens",
+                        "Domínio das mulheres"
                     ],
-                    correta: 2
+                    correta: 0
                 }
             ],
             medio: [
                 {
                     pergunta: "O que é 'mansplaining'?",
                     opcoes: [
-                        "Homem explicando algo com respeito",
+                        "Homem explicando de forma técnica",
                         "Homem explicando algo óbvio de forma condescendente",
-                        "Aula de masculinidade",
-                        "Algo engraçado"
+                        "Uma palestra masculina",
+                        "Explicação objetiva"
                     ],
                     correta: 1
                 },
                 {
                     pergunta: "Como ajudar no combate ao machismo?",
                     opcoes: [
-                        "Ficar em silêncio",
                         "Apoiar mulheres e denunciar abusos",
-                        "Ignorar denúncias",
-                        "Fazer piadas sexistas"
-                    ],
-                    correta: 1
-                },
-                {
-                    pergunta: "Qual dessas frases é machista?",
-                    opcoes: [
-                        "Mulher no volante, perigo constante",
-                        "Mulheres são tão capazes quanto homens",
-                        "Todos merecem respeito",
-                        "Lugar de mulher é onde ela quiser"
+                        "Ignorar comportamentos",
+                        "Não se envolver em discussões",
+                        "Fazer piadas leves"
                     ],
                     correta: 0
                 }
             ],
             dificil: [
                 {
-                    pergunta: "O machismo prejudica:",
+                    pergunta: "O machismo afeta:",
                     opcoes: [
-                        "Somente as mulheres",
-                        "Somente os homens",
+                        "Somente mulheres adultas",
                         "Toda a sociedade",
-                        "Apenas crianças"
+                        "Pessoas sem estudo",
+                        "Apenas relacionamentos amorosos"
                     ],
-                    correta: 2
+                    correta: 1
                 },
                 {
-                    pergunta: "Um exemplo de igualdade de gênero é:",
+                    pergunta: "Qual dessas ações reforça o machismo?",
                     opcoes: [
-                        "Mulheres só em cargos administrativos",
-                        "Homens ganharem mais",
-                        "Mesmos direitos e oportunidades para todos",
-                        "Mulheres obedecerem os homens"
-                    ],
-                    correta: 2
-                },
-                {
-                    pergunta: "Qual dessas ações é respeitosa?",
-                    opcoes: [
-                        "Interromper mulheres",
-                        "Fazer piadas sobre gênero",
-                        "Ouvir e valorizar opiniões femininas",
-                        "Duvidar da capacidade das mulheres"
+                        "Dividir tarefas domésticas",
+                        "Ouvir as mulheres",
+                        "Interromper mulheres ao falar",
+                        "Promover igualdade"
                     ],
                     correta: 2
                 }
@@ -150,12 +190,12 @@
                 {
                     pergunta: "Por que é importante discutir o machismo?",
                     opcoes: [
-                        "Para perpetuar o sistema atual",
-                        "Para proteger privilégios masculinos",
-                        "Para promover a desigualdade",
-                        "Para construir uma sociedade mais justa"
+                        "Para proteger privilégios",
+                        "Para perpetuar a desigualdade",
+                        "Para construir uma sociedade mais justa",
+                        "Porque é polêmico"
                     ],
-                    correta: 3
+                    correta: 2
                 }
             ]
         };
@@ -233,9 +273,24 @@
             }
 
             document.getElementById("estrelas").innerText = estrelas;
+
+            mostrarGabarito();
+        }
+
+        function mostrarGabarito() {
+            const gabaritoDiv = document.getElementById("gabarito");
+            gabaritoDiv.innerHTML = "<h2>Gabarito:</h2>";
+
+            perguntas.forEach((p, i) => {
+                const corretaLetra = String.fromCharCode(65 + p.correta);
+                gabaritoDiv.innerHTML += `<p><strong>P${i + 1}</strong> - ${p.pergunta}<br>Resposta correta: <strong>(${corretaLetra}) ${p.opcoes[p.correta]}</strong></p>`;
+            });
         }
 
         iniciarQuiz();
     </script>
 </body>
 </html>
+
+Se quiser que eu altere o número de perguntas, ou adicione nível muito difícil, ou alguma arte gráfica (como ícones ou ilustrações no topo), posso incluir também. Quer mais algum ajuste?
+
