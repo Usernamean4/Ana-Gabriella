@@ -1,259 +1,125 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Quiz Contra o Machismo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sabor Caseiro</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #ffd6e0, #f6f6f6);
-      padding: 20px;
-      max-width: 700px;
-      margin: auto;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      margin: 0;
+      padding: 0;
+      background: #fffaf4;
+      color: #333;
     }
-    h1, h2 {
+    header {
+      background: #ff914d;
+      color: white;
       text-align: center;
-      color: #6a0572;
+      padding: 20px;
     }
-    .pergunta {
-      font-size: 20px;
-      margin: 20px 0 10px;
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+    header p {
+      margin: 5px 0 0;
+      font-size: 1.2em;
+    }
+    nav {
+      background: #ffbb88;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      margin: 0 15px;
+      color: #333;
+      text-decoration: none;
       font-weight: bold;
     }
-    .opcoes button, .nivel button {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      font-size: 16px;
-      cursor: pointer;
-      border: none;
-      border-radius: 8px;
-      background-color: #fff;
-      transition: background 0.3s;
+    section {
+      padding: 30px;
+      max-width: 900px;
+      margin: auto;
     }
-    .opcoes button:hover, .nivel button:hover {
-      background-color: #ffe0e9;
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 15px 0;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
     }
-    #resultado, .estrelas {
+    .card h2 {
+      margin-top: 0;
+      color: #ff914d;
+    }
+    .premium {
+      background: #fff0e0;
+      border: 2px solid #ff914d;
+    }
+    footer {
+      background: #ff914d;
+      color: white;
       text-align: center;
+      padding: 15px;
       margin-top: 20px;
     }
-    .estrelas {
-      font-size: 24px;
-      color: gold;
-    }
-    #timer {
-      text-align: center;
-      font-size: 18px;
-      margin: 10px;
-      color: #ff4c4c;
-    }
-    .correta, .errada {
-      margin-top: 5px;
-      padding: 8px;
-      border-radius: 6px;
-    }
-    .correta {
-      background-color: #e0ffe0;
-    }
-    .errada {
-      background-color: #ffe0e0;
+    img {
+      max-width: 100%;
+      border-radius: 8px;
     }
   </style>
 </head>
 <body>
-  <h1>Quiz: Combate ao Machismo</h1>
-  <div id="nivelEscolha" class="nivel">
-    <h2>Escolha a dificuldade</h2>
-    <button onclick="iniciarQuiz('medio')">Médio</button>
-    <button onclick="iniciarQuiz('dificil')">Difícil</button>
-  </div>
+  <header>
+    <h1>Sabor Caseiro</h1>
+    <p>Comida prática, doce e saudável, por um preço que cabe no bolso</p>
+  </header>
 
-  <div id="quiz" style="display:none;">
-    <div class="pergunta" id="pergunta"></div>
-    <div id="timer">Tempo: 8</div>
-    <div class="opcoes" id="opcoes"></div>
-  </div>
+  <nav>
+    <a href="#gratis">Gratuito</a>
+    <a href="#premium">Premium</a>
+    <a href="#contato">Contato</a>
+  </nav>
 
-  <div id="resultado"></div>
-  <div class="estrelas" id="estrelas"></div>
-  <div id="respostas-cert"></div>
+  <section id="gratis">
+    <div class="card">
+      <h2>🍴 Parte Gratuita</h2>
+      <p>Aqui você encontra um cardápio básico e receitas simples para experimentar.</p>
+      <ul>
+        <li>Marmita Clássica: Arroz, feijão e frango grelhado</li>
+        <li>Doce: Brigadeiro de panela</li>
+        <li>Bebida: Suco de limão natural</li>
+      </ul>
+      <img src="marmita.png" alt="Imagem de uma marmita">
+    </div>
+  </section>
 
-  <script>
-    const perguntasPorNivel = {
-      medio: [
-        {
-          pergunta: "Quem pode combater o machismo?",
-          opcoes: ["A) Só mulheres", "B) Só quem estuda sobre o tema", "C) Todos nós", "D) Pessoas mais velhas"],
-          correta: 2
-        },
-        {
-          pergunta: "Qual dessas frases é machista?",
-          opcoes: ["A) Mulher no volante, perigo constante", "B) Lugar de mulher é onde ela quiser", "C) Homens e mulheres são iguais", "D) Todos devem ser respeitados"],
-          correta: 0
-        },
-        {
-          pergunta: "Como podemos combater o machismo no dia a dia?",
-          opcoes: ["A) Rindo de piadas machistas", "B) Ignorando comentários ofensivos", "C) Denunciando abusos e apoiando vítimas", "D) Não fazer nada"],
-          correta: 2
-        },
-        {
-          pergunta: "O que é “mansplaining”?",
-          opcoes: ["A) Explicar gentilmente", "B) Homem explicando algo óbvio com arrogância", "C) Falar bem de mulheres", "D) Interromper para ensinar"],
-          correta: 1
-        },
-        {
-          pergunta: "O machismo prejudica:",
-          opcoes: ["A) Só mulheres", "B) Só homens", "C) Toda a sociedade", "D) Só crianças"],
-          correta: 2
-        },
-        {
-          pergunta: "Feminismo é:",
-          opcoes: ["A) Ódio aos homens", "B) Igualdade entre gêneros", "C) Superioridade feminina", "D) Luta contra a masculinidade"],
-          correta: 1
-        },
-        {
-          pergunta: "Exemplo de machismo sutil:",
-          opcoes: ["A) Dizer que mulher é sensível demais", "B) Elogiar uma mulher", "C) Pedir opinião feminina", "D) Ouvir sem interromper"],
-          correta: 0
-        },
-        {
-          pergunta: "Uma atitude antimachista é:",
-          opcoes: ["A) Corrigir piadas ofensivas", "B) Rir com os amigos", "C) Fingir que não ouviu", "D) Mudar de assunto"],
-          correta: 0
-        }
-      ],
-      dificil: [
-        {
-          pergunta: "O que é o patriarcado?",
-          opcoes: ["A) Governo só de mulheres", "B) Sistema de dominação masculina", "C) Igualdade entre todos", "D) Religião antiga"],
-          correta: 1
-        },
-        {
-          pergunta: "Qual dessas atitudes ajuda a combater o machismo?",
-          opcoes: ["A) Proteger mulheres como frágeis", "B) Interromper quando discordar", "C) Ouvir e valorizar mulheres", "D) Fazer piadas para aliviar"],
-          correta: 2
-        },
-        {
-          pergunta: "A frase 'mulher tem que se dar ao respeito' é:",
-          opcoes: ["A) Motivadora", "B) Neutra", "C) Machista", "D) Verdadeira"],
-          correta: 2
-        },
-        {
-          pergunta: "Por que devemos falar sobre machismo?",
-          opcoes: ["A) Para incomodar", "B) Para entender e mudar comportamentos", "C) Para testar os outros", "D) Porque está na moda"],
-          correta: 1
-        },
-        {
-          pergunta: "Qual dessas situações representa machismo?",
-          opcoes: ["A) Dividir tarefas de casa", "B) Dizer que mulher não entende de política", "C) Apoiar mulheres líderes", "D) Valorizar as opiniões femininas"],
-          correta: 1
-        },
-        {
-          pergunta: "O que é gaslighting?",
-          opcoes: ["A) Iluminar ideias", "B) Fazer a pessoa duvidar da própria sanidade", "C) Ficar bravo com luzes", "D) Técnica de convencimento saudável"],
-          correta: 1
-        },
-        {
-          pergunta: "Microagressões são:",
-          opcoes: ["A) Piadas inofensivas", "B) Formas sutis de opressão", "C) Pequenos elogios", "D) Atos de bondade exagerados"],
-          correta: 1
-        },
-        {
-          pergunta: "Machismo estrutural é:",
-          opcoes: ["A) Uma construção literal", "B) Algo que só existe na escola", "C) Parte do sistema social que normaliza desigualdade", "D) Um exagero da mídia"],
-          correta: 2
-        }
-      ]
-    };
+  <section id="premium">
+    <div class="card premium">
+      <h2>💎 Parte Premium</h2>
+      <p>No plano acessível, você tem acesso a cardápios completos, sobremesas variadas e receitas exclusivas.</p>
+      <ul>
+        <li>Cardápio semanal variado</li>
+        <li>Receitas em vídeo</li>
+        <li>Lista de compras pronta</li>
+        <li>Sobremesas e sucos especiais</li>
+      </ul>
+      <p><strong>Assine por apenas R$ 9,90/mês</strong></p>
+      <img src="bolo-pote.jpg" alt="Imagem de um bolo de pote">
+    </div>
+  </section>
 
-    let perguntas = [], atual = 0, acertos = 0, respostasUsuario = [], nivelAtual = "", timer, tempo;
+  <section id="contato">
+    <div class="card">
+      <h2>📞 Contato</h2>
+      <p>Email: contato@saborcaseiro.com</p>
+      <p>WhatsApp: (00) 90000-0000</p>
+    </div>
+  </section>
 
-    function iniciarQuiz(nivel) {
-      nivelAtual = nivel;
-      perguntas = [...perguntasPorNivel[nivel]];
-      atual = 0;
-      acertos = 0;
-      respostasUsuario = [];
-      document.getElementById("nivelEscolha").style.display = "none";
-      document.getElementById("quiz").style.display = "block";
-      mostrarPergunta();
-    }
-
-    function mostrarPergunta() {
-      const p = perguntas[atual];
-      document.getElementById("pergunta").innerText = `Pergunta ${atual + 1}: ${p.pergunta}`;
-      const opcoesDiv = document.getElementById("opcoes");
-      opcoesDiv.innerHTML = "";
-      p.opcoes.forEach((opcao, i) => {
-        const btn = document.createElement("button");
-        btn.innerText = opcao;
-        btn.onclick = () => responder(i);
-        opcoesDiv.appendChild(btn);
-      });
-      iniciarTimer();
-    }
-
-    function iniciarTimer() {
-      tempo = 8; // Tempo alterado para 8 segundos
-      document.getElementById("timer").innerText = `Tempo: ${tempo}`;
-      clearInterval(timer);
-      timer = setInterval(() => {
-        tempo--;
-        document.getElementById("timer").innerText = `Tempo: ${tempo}`;
-        if (tempo <= 0) {
-          clearInterval(timer);
-          responder(null);
-        }
-      }, 1000);
-    }
-
-    function responder(resposta) {
-      clearInterval(timer);
-      respostasUsuario.push(resposta);
-      if (resposta !== null && resposta === perguntas[atual].correta) {
-        acertos++;
-      }
-      atual++;
-      if (atual < perguntas.length) {
-        mostrarPergunta();
-      } else {
-        mostrarResultado();
-      }
-    }
-
-    function mostrarResultado() {
-      document.getElementById("quiz").style.display = "none";
-      let msg = `Você acertou ${acertos} de ${perguntas.length} perguntas.\n`;
-
-      if (acertos >= 4) {
-        msg += "Ótimo trabalho!";
-        document.getElementById("estrelas").innerText = acertos >= 6 ? "★★★" : acertos >= 4 ? "★★" : "★";
-      } else {
-        msg += "Reprovado. Não desanime: conhecimento é um caminho, continue aprendendo!";
-        document.getElementById("estrelas").innerText = "★";
-      }
-
-      document.getElementById("resultado").innerText = msg;
-
-      let respostas = "<h3>Respostas:</h3><ul>";
-      perguntas.forEach((p, i) => {
-        const letraCerta = p.opcoes[p.correta];
-        respostas += `<li><strong>${p.pergunta}</strong>`;
-        respostas += `<div class="correta">Correta: ${letraCerta}</div>`;
-        if (respostasUsuario[i] !== p.correta) {
-          let r = respostasUsuario[i];
-          respostas += `<div class="errada">Você respondeu: ${r !== null ? p.opcoes[r] : "Não respondeu (tempo esgotado)"}</div>`;
-        }
-        respostas += "</li><br>";
-      });
-      respostas += "</ul>";
-      document.getElementById("respostas-cert").innerHTML = respostas;
-    }
-  </script>
+  <footer>
+    <p>&copy; 2025 Sabor Caseiro - Todos os direitos reservados</p>
+  </footer>
 </body>
 </html>
